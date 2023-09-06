@@ -128,7 +128,7 @@ public class Puzzle implements ActionListener, KeyListener {
 
         switch (keyCode) {
 
-            case KeyEvent.VK_UP:
+            case KeyEvent.VK_DOWN:
                 if (this.makeMove(emptyCell + this.dimension)) { // target cell is exactly 1 row above
                     if (this.puzzleLogic.isSolved()) { // game is finished
                         JOptionPane.showMessageDialog(null, "You Win The Game.");
@@ -136,7 +136,7 @@ public class Puzzle implements ActionListener, KeyListener {
                 }
                 break;
 
-            case KeyEvent.VK_DOWN:
+            case KeyEvent.VK_UP:
                 if (this.makeMove(emptyCell - this.dimension)) { // target cell is exactly 1 row below
                     if (this.puzzleLogic.isSolved()) { // game is finished
                         JOptionPane.showMessageDialog(null, "You Win The Game.");
@@ -144,7 +144,7 @@ public class Puzzle implements ActionListener, KeyListener {
                 }
                 break;
 
-            case KeyEvent.VK_LEFT:
+            case KeyEvent.VK_RIGHT:
                 if (this.makeMove(emptyCell + 1)) { // target cell is exactly 1 column to the right
                     if (this.puzzleLogic.isSolved()) { // game is finished
                         JOptionPane.showMessageDialog(null, "You Win The Game.");
@@ -152,7 +152,7 @@ public class Puzzle implements ActionListener, KeyListener {
                 }
                 break;
 
-            case KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_LEFT:
                 if (this.makeMove(emptyCell - 1)) { // target cell is exactly 1 column to the left
                     if (this.puzzleLogic.isSolved()) { // game is finished
                         JOptionPane.showMessageDialog(null, "You Win The Game.");
