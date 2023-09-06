@@ -6,14 +6,12 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 
-
-public class Puzzle implements ActionListener {
+public class Puzzle implements ActionListener, KeyListener {
 
     private final PuzzleLogic puzzleLogic;
     private final int dimension;
     private static final int HEIGHT = 400;
     private static final int WIDTH = 400;
-
 
     private final JButton[][] board;
     private final JFrame frame;
@@ -23,10 +21,16 @@ public class Puzzle implements ActionListener {
         this.puzzleLogic = new PuzzleLogic(dimension);
         this.dimension = dimension;
 
+        // UI components
         this.board = new JButton[this.dimension][this.dimension];
         this.frame = new JFrame("Sliding Puzzle Game");
         this.panel = new JPanel();
-    }
+
+        // allow for keyboard movement
+        this.frame.addKeyListener(this);
+        this.frame.setFocusable(true);
+        this.frame.requestFocus();
+    } // end of constructor
 
     /**
      * Gives index value corresponding to [row,col] of a square
@@ -105,13 +109,55 @@ public class Puzzle implements ActionListener {
         }
     } // end of actionPerformed()
 
+    @Override
+    public void keyTyped(KeyEvent e) {}
+
+    @Override
+    public void keyPressed(KeyEvent e) {}
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        int emptyCell = this.puzzleLogic.getEmptyCell();
+        int keyCode = e.getKeyCode();
+
+        switch (keyCode) {
+            case KeyEvent.VK_UP -> {
+                if (this.makeMove(emptyCell + this.dimension)) { // target cell is exactly 1 row above
+                    if (this.puzzleLogic.isSolved()) { // game is finished
+                        JOptionPane.showMessageDialog(null, "You Win The Game.");
+                    }
+                }
+            }
+            case KeyEvent.VK_DOWN -> {
+                if (this.makeMove(emptyCell - this.dimension)) { // target cell is exactly 1 row below
+                    if (this.puzzleLogic.isSolved()) { // game is finished
+                        JOptionPane.showMessageDialog(null, "You Win The Game.");
+                    }
+                }
+            }
+            case KeyEvent.VK_LEFT -> {
+                if (this.makeMove(emptyCell + 1)) { // target cell is exactly 1 column to the right
+                    if (this.puzzleLogic.isSolved()) { // game is finished
+                        JOptionPane.showMessageDialog(null, "You Win The Game.");
+                    }
+                }
+            }
+            case KeyEvent.VK_RIGHT -> {
+                if (this.makeMove(emptyCell - 1)) { // target cell is exactly 1 column to the left
+                    if (this.puzzleLogic.isSolved()) { // game is finished
+                        JOptionPane.showMessageDialog(null, "You Win The Game.");
+                    }
+                }
+            }
+        }
+    } // end of keyReleased()
+
     /**
      * Gives the index by processing the text on square
      * @param cellNum, number on the button
      * @return the index of the button
      */
     private int indexOf(String cellNum) {
-
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board[row].length; col++) {
                 if (board[row][col].getText().equals(cellNum)) {
