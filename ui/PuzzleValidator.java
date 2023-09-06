@@ -29,7 +29,7 @@
 
 
 
-package UI;
+package ui;
 
 import java.util.ArrayList;
 

@@ -4,7 +4,7 @@
  * Handle the logic behind the puzzle
  */
 
-package UI;
+package ui;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,6 +18,10 @@ public class PuzzleLogic {
     private int emptyCell;
 
 
+    /**
+     * For the user's game
+     * @param dimension size of the board
+     */
     public PuzzleLogic(int dimension) {
         this.validator = new PuzzleValidator();
         this.dimension = dimension;
@@ -35,9 +39,32 @@ public class PuzzleLogic {
         System.out.println("Final Puzzle State:" + this.puzzleSolution);
     }
 
+    /**
+     * For the solver
+     * @param dimension     size of the board
+     * @param puzzleState   current state of the puzzle
+     */
+    public PuzzleLogic(int dimension, ArrayList<Integer> puzzleState) {
+        this.validator = new PuzzleValidator();
+        this.dimension = dimension;
+        this.size = dimension * dimension;
+        this.emptyCell = this.size;
+
+        this.puzzleSolution = new ArrayList<>(this.size);
+        this.puzzleState = puzzleState;
+
+        // Generate the puzzle solution
+        for (int i = 1; i < this.size; i++) {
+            this.puzzleSolution.add(i);
+        }
+        this.puzzleSolution.add(0);
+        System.out.println("Final Puzzle State:" + this.puzzleSolution);
+    }
+
     public int getSize() {return this.size;}
     public void setEmptyCell(int emptyCell) {this.emptyCell = emptyCell;}
     public int getEmptyCell() {return this.emptyCell;}
+    public ArrayList<Integer> getPuzzleState() {return this.puzzleState;}
 
     /**
      * Generate a solvable in the form of a 1D arraylist
@@ -54,7 +81,7 @@ public class PuzzleLogic {
             isSolvable = this.validator.isSolvable(this.puzzleState, this.dimension);
         }
         System.out.println("Initial Board state:");
-        this.printPuzzle();
+//        this.printPuzzle();
         return this.puzzleState;
     } // end of generatePuzzle()
 
@@ -94,7 +121,7 @@ public class PuzzleLogic {
         if (validMove) { // update the puzzle state and emptyCell
             Collections.swap(this.puzzleState, pieceIndex, this.emptyCell);
             this.emptyCell = pieceIndex;
-            this.printPuzzle();
+//            this.printPuzzle();
         }
         return validMove;
     } // end of validMove()

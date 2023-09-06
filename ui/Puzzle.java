@@ -1,10 +1,9 @@
-package UI;
+package ui;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.ArrayList;
-
 
 public class Puzzle implements ActionListener, KeyListener {
 
@@ -44,8 +43,9 @@ public class Puzzle implements ActionListener, KeyListener {
 
     /**
      * Generates the UI for the game
+     * @return the
      */
-    public void initializeBoard() {
+    public ArrayList<Integer> initializeBoard() {
         ArrayList<Integer> puzzle = this.puzzleLogic.generatePuzzle();
 
         // Assigns unique random number to each square
@@ -83,6 +83,7 @@ public class Puzzle implements ActionListener, KeyListener {
         content.add(panel, BorderLayout.CENTER);
         content.setBackground(Color.GRAY);
         frame.setVisible(true);
+        return this.puzzleLogic.getPuzzleState();
     } // end of initializeBoard()
 
     /**
@@ -109,6 +110,11 @@ public class Puzzle implements ActionListener, KeyListener {
         }
     } // end of actionPerformed()
 
+<<<<<<< HEAD:ui/Puzzle.java
+
+
+=======
+>>>>>>> staging:UI/Puzzle.java
     @Override
     public void keyTyped(KeyEvent e) {}
 
