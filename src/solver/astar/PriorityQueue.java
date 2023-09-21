@@ -1,12 +1,14 @@
 /**
  * PriorityQueue.java
  *
- * Minimum Priority queue
+ * Minimum Priority queue.
  */
+
 package solver.astar;
 
 import solver.astar.minheap.MinHeap;
 import solver.astar.minheap.Node;
+
 
 public class PriorityQueue {
 
@@ -38,14 +40,6 @@ public class PriorityQueue {
 
     public int getWeight(int node) {
         return this.heap.getWeight(node);
-    }
-
-    /**
-     * Get the value with the most priority
-     * @return the value with most priority
-     */
-    public Node getMin() {
-        return this.heap.getMin();
     }
 
 } // end of PriorityQueue.java

@@ -1,10 +1,17 @@
+/**
+ * AStarSearch.java
+ *
+ * Perform the A* search on a graph.
+ */
+
 package solver.astar;
 
-import solver.astar.graph.AdjacentNodes;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import solver.astar.minheap.Node;
 import solver.astar.graph.Graph;
 
-import java.util.ArrayList;
 
 public class AStarSearch {
 
@@ -14,9 +21,16 @@ public class AStarSearch {
         this.queue = new PriorityQueue();
     }
 
-
-
-
+    /**
+     * Perform an A* search from src to distance.
+     *
+     * @param src Source position.
+     * @param dest Destination position.
+     * @param graph Model of the target graph.
+     * @param immovable List of positions that can not be included in the shortest path.
+     * @param prioritizeRow Prioritize row traveling first if True.
+     * @return The shortest path from src to dest.
+     * */
     public ArrayList<Integer> shortestPath(int src, int dest, Graph graph,
                                            ArrayList<Integer> immovable, boolean prioritizeRow) {
         ArrayList<Integer> visited = new ArrayList<>();
@@ -28,52 +42,48 @@ public class AStarSearch {
         ArrayList<Node> finished = new ArrayList<>();
         while (!this.queue.isEmpty()) {
             Node currentNode = this.queue.dequeue();
-            int weight = currentNode.getWeight();
-            int value = currentNode.getValue();
+            int parentWeight = currentNode.getWeight();
+            int parentValue = currentNode.getValue();
 
-            if (value == dest) { // arrive at destination
+            if (parentValue == dest) { // arrive at destination
                 finished.add(currentNode);
-                visited.add(value);
+                visited.add(parentValue);
                 break;
             }
 
-
-            int[] vertices = graph.getNodeVertices(value).adjacentNodeList();
+            int[] vertices = graph.getNodeVertices(parentValue).adjacentNodeList();
             for (int i = 0; i < 4; i++) {
                 if (vertices[i] != -1) {
-                    int vertexValue = vertices[i];
+                    int childValue = vertices[i];
 
-                    int vertexWeight = (immovable.contains(vertexValue) ? 100 : 1) + weight;
+                    int childWeight = (immovable.contains(childValue) ? 100 : 1) + parentWeight;
                     if (prioritizeRow) { // prioritize aligning the node with the row first
-                        if (i % 2 == 1) { // vertex is left or right of the current Node
-                            vertexWeight += 5;
+                        if (i % 2 == 0) { // vertex is left or right of the current Node
+                            childWeight += 5;
                         }
                     } else { // prioritize aligning the node with the column first
-                        if (i % 2 == 0) { // vertex is above or below the current Node
-                            vertexWeight += 5;
+                        if (i % 2 == 1) { // vertex is above or below the current Node
+                            childWeight += 5;
                         }
                     }
 
                     // check if vertex has been visited previously
-                    if (visited.contains(vertexValue)) { // compare its current registered weight with the vertex weight
-                        if (this.queue.getWeight(vertexValue) > vertexWeight) {
-                            this.queue.updateWeight(vertexValue, vertexWeight);
-                            this.queue.updateParent(vertexValue, value);
+                    if (visited.contains(childValue)) { // compare its current registered weight with the vertex weight
+                        if ((this.queue.getWeight(childValue) > childWeight) &&
+                                Arrays.asList(graph.getNodeVertices(childValue).adjacentNodeList()).contains(parentValue)) {
+                            this.queue.updateWeight(childValue, childWeight);
+                            this.queue.updateParent(childValue, parentValue);
                         }
                     } else { // not visited this vertex yet
                         // prevent moving vertices in immovable by giving a larger weight
-                        int vertexDistance = manhattanDistance(vertexValue, dest, graph);
-                        this.queue.enqueue(new Node(vertexWeight, vertexWeight + vertexDistance, vertexValue, value));
-                        visited.add(vertexValue);
+                        int childDistance = manhattanDistance(childValue, dest, graph);
+                        this.queue.enqueue(new Node(childWeight, childWeight + childDistance, childValue, parentValue));
+                        visited.add(childValue);
                     }
                 }
             }
             finished.add(currentNode);
         }
-
-//        for (Node node : finished) {
-//            System.out.println("(" + node.getValue() + ","+ node.getParent() + ")");
-//        }
 
         // retrace the steps in finished to get the final path
         ArrayList<Integer> path = new ArrayList<>();
@@ -81,21 +91,23 @@ public class AStarSearch {
         while (start.getValue() != src) {
             path.add(start.getValue());
             int parent = start.getParent();
+            int[] adjacentNodes = graph.getNodeVertices(start.getValue()).adjacentNodeList();
             for (Node node : finished) {
-                if (node.getValue() == parent) {
+                if (node.getValue() == parent ) {
                     start = node;
                 }
             }
         }
         path.add(start.getValue());
         return path;
-    }
+    } // end of shortestPath()
 
     /**
      * Calculate the approximate distance from the current node
-     * the the destination node using Manhattan distance
-     * @param successorNode index of the successor node
-     * @return              Manhattan distance from the current node the destination
+     * the destination node using Manhattan distance
+     *
+     * @param successorNode index of the successor node.
+     * @return Manhattan distance from the current node the destination.
      */
     private int manhattanDistance(int successorNode, int dest, Graph graph) {
         int dimension = graph.getDimension();
@@ -108,7 +120,5 @@ public class AStarSearch {
 
         return Math.abs(destX - currentX) + Math.abs(destY - currentY);
     } // end of manhattanDistance()
-
-
 
 } // end of AStar.java

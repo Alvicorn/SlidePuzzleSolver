@@ -1,9 +1,11 @@
 /**
- * PQNode.java
+ * Node.java
  *
- * Node for a priority queue
+ * Node for a minheap.
  */
+
 package solver.astar.minheap;
+
 
 public class Node {
 
@@ -23,31 +25,12 @@ public class Node {
         return weight;
     }
 
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
-
-    public int getTotalCost() {
-        return totalCost;
-    }
-
-    public void setTotalCost(int totalCost) {
-        this.totalCost = totalCost;
-    }
-
     public int getValue() {
         return value;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
     }
 
     public int getParent() {
         return parent;
     }
 
-    public void setParent(int parent) {
-        this.parent = parent;
-    }
-}
+} // end of Node.java

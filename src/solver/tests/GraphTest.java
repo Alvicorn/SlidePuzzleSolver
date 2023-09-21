@@ -1,54 +1,55 @@
 package solver.tests;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import solver.astar.graph.Graph;
-
 import java.util.ArrayList;
 import java.util.Arrays;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import solver.astar.graph.Graph;
+
 
 class GraphTest {
 
     @Test
     @DisplayName("Check Graph: Full 2 by 2")
     public void TwoByTwoGraph() {
-        ArrayList<Integer> puzzleState = new ArrayList<>(Arrays.asList(0, 1,
-                                                                       2, 3));
+        ArrayList<Integer> puzzleState = new ArrayList<>(Arrays.asList(1, 0,
+                                                                       3, 2));
         Graph g = new Graph(2, puzzleState);
         g.printGraph();
 
         assertAll(
-                () -> assertArrayEquals(new int[] {-1, 1, 2, -1}, g.getNodeVertices(0).adjacentNodeList()),
-                () -> assertArrayEquals(new int[] {-1, -1, 3, 0}, g.getNodeVertices(1).adjacentNodeList()),
+                () -> assertArrayEquals(new int[] {-1, 0, 3, -1}, g.getNodeVertices(1).adjacentNodeList()),
+                () -> assertArrayEquals(new int[] {-1, -1, 2, 1}, g.getNodeVertices(0).adjacentNodeList()),
 
-                () -> assertArrayEquals(new int[] {0, 3, -1, -1}, g.getNodeVertices(2).adjacentNodeList()),
-                () -> assertArrayEquals(new int[] {1, -1, -1, 2}, g.getNodeVertices(3).adjacentNodeList())
+                () -> assertArrayEquals(new int[] {1, 2, -1, -1}, g.getNodeVertices(3).adjacentNodeList()),
+                () -> assertArrayEquals(new int[] {0, -1, -1, 3}, g.getNodeVertices(2).adjacentNodeList())
                 );
     } // end of TwoByTwoGraph()
 
     @Test
     @DisplayName("Check Graph: Full 3 by 3")
     public void ThreeByThreeGraph() {
-        ArrayList<Integer> puzzleState = new ArrayList<>(Arrays.asList(0, 1, 2,
-                                                                       3 ,4, 5,
-                                                                       6, 7, 8));
+        ArrayList<Integer> puzzleState = new ArrayList<>(Arrays.asList(1, 3, 2,
+                                                                       0 ,7, 4,
+                                                                       6, 5, 8));
         Graph g = new Graph(3, puzzleState);
         g.printGraph();
 
         assertAll(
-                () -> assertArrayEquals(new int[] {-1, 1, 3, -1}, g.getNodeVertices(0).adjacentNodeList()),
-                () -> assertArrayEquals(new int[] {-1, 2, 4, 0}, g.getNodeVertices(1).adjacentNodeList()),
-                () -> assertArrayEquals(new int[] {-1, -1, 5, 1}, g.getNodeVertices(2).adjacentNodeList()),
-
-                () -> assertArrayEquals(new int[] {0, 4, 6, -1}, g.getNodeVertices(3).adjacentNodeList()),
-                () -> assertArrayEquals(new int[] {1, 5, 7, 3}, g.getNodeVertices(4).adjacentNodeList()),
-                () -> assertArrayEquals(new int[] {2, -1, 8, 4}, g.getNodeVertices(5).adjacentNodeList()),
-
-                () -> assertArrayEquals(new int[] {3, 7, -1, -1}, g.getNodeVertices(6).adjacentNodeList()),
-                () -> assertArrayEquals(new int[] {4, 8, -1, 6}, g.getNodeVertices(7).adjacentNodeList()),
-                () -> assertArrayEquals(new int[] {5, -1, -1, 7}, g.getNodeVertices(8).adjacentNodeList())
+                () -> assertArrayEquals(new int[] {-1, 3, 0, -1}, g.getNodeVertices(1).adjacentNodeList()),
+                () -> assertArrayEquals(new int[] {-1, 2, 7, 1}, g.getNodeVertices(3).adjacentNodeList()),
+                () -> assertArrayEquals(new int[] {-1, -1, 4, 3}, g.getNodeVertices(2).adjacentNodeList()),
+//
+                () -> assertArrayEquals(new int[] {1, 7, 6, -1}, g.getNodeVertices(0).adjacentNodeList()),
+                () -> assertArrayEquals(new int[] {3, 4, 5, 0}, g.getNodeVertices(7).adjacentNodeList()),
+                () -> assertArrayEquals(new int[] {2, -1, 8, 7}, g.getNodeVertices(4).adjacentNodeList()),
+//
+                () -> assertArrayEquals(new int[] {0, 5, -1, -1}, g.getNodeVertices(6).adjacentNodeList()),
+                () -> assertArrayEquals(new int[] {7, 8, -1, 6}, g.getNodeVertices(5).adjacentNodeList()),
+                () -> assertArrayEquals(new int[] {4, -1, -1, 5}, g.getNodeVertices(8).adjacentNodeList())
         );
     } // end of ThreeByThreeGraph()
 
@@ -84,6 +85,5 @@ class GraphTest {
                 () -> assertArrayEquals(new int[] {11, -1, -1, 14}, g.getNodeVertices(15).adjacentNodeList())
         );
     } // end of FourByFourGraph()
-
 
 } // end of GraphTest()

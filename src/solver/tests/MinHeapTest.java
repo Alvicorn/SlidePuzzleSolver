@@ -1,14 +1,15 @@
 package solver.tests;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 import solver.astar.minheap.MinHeap;
 import solver.astar.minheap.Node;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class MinHeapTest {
 
@@ -58,7 +59,5 @@ class MinHeapTest {
         }
         assertArrayEquals(expected.toArray(), results.toArray());
     } // end of insert1000Element()
-
-
 
 } // end of MinHeapTest.java

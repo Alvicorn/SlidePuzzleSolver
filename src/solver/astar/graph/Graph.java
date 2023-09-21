@@ -63,47 +63,48 @@ public class Graph {
 
         ArrayList<Vertex> vertices = new ArrayList<>();
         for (int i = 0; i < puzzleState.size(); i++) {
+            int target = puzzleState.get(i);
             if (i == topLeftIndex) { // top left corner
-                vertices.add(new Vertex(i, puzzleState.get(i + 1), 2)); // i --- rightNode
-                vertices.add(new Vertex(i, puzzleState.get(i + dimension), 3)); // i --- bottomNode
+                vertices.add(new Vertex(target, puzzleState.get(i + 1), 2)); // i --- rightNode
+                vertices.add(new Vertex(target, puzzleState.get(i + dimension), 3)); // i --- bottomNode
 
             } else if (i == topRightIndex) { // top right corner
-                vertices.add(new Vertex(i, puzzleState.get(i + dimension), 3)); // i --- bottomNode
-                vertices.add(new Vertex(i, puzzleState.get(i - 1), 4)); // i --- leftNode
+                vertices.add(new Vertex(target, puzzleState.get(i + dimension), 3)); // i --- bottomNode
+                vertices.add(new Vertex(target, puzzleState.get(i - 1), 4)); // i --- leftNode
 
             } else if (i == bottomLeftIndex) { // bottom left corner
-                vertices.add(new Vertex(i, puzzleState.get(i - dimension), 1)); // i --- topNode
-                vertices.add(new Vertex(i, puzzleState.get(i + 1), 2)); // i --- rightNode
+                vertices.add(new Vertex(target, puzzleState.get(i - dimension), 1)); // i --- topNode
+                vertices.add(new Vertex(target, puzzleState.get(i + 1), 2)); // i --- rightNode
 
             }else if (i == bottomRightIndex) { // // bottom right corner
-                vertices.add(new Vertex(i, puzzleState.get(i - dimension), 1)); // i --- topNode
-                vertices.add(new Vertex(i, puzzleState.get(i - 1), 4)); // i --- leftNode
+                vertices.add(new Vertex(target, puzzleState.get(i - dimension), 1)); // i --- topNode
+                vertices.add(new Vertex(target, puzzleState.get(i - 1), 4)); // i --- leftNode
 
             } else if (i % dimension == 0) { // start of a new row
-                vertices.add(new Vertex(i, puzzleState.get(i - dimension), 1)); // i --- topNode
-                vertices.add(new Vertex(i, puzzleState.get(i + 1), 2)); // i --- rightNode
-                vertices.add(new Vertex(i, puzzleState.get(i + dimension), 3)); // i --- bottomNode
+                vertices.add(new Vertex(target, puzzleState.get(i - dimension), 1)); // i --- topNode
+                vertices.add(new Vertex(target, puzzleState.get(i + 1), 2)); // i --- rightNode
+                vertices.add(new Vertex(target, puzzleState.get(i + dimension), 3)); // i --- bottomNode
 
             } else if (i % dimension == dimension - 1) { // end of a row
-                vertices.add(new Vertex(i, puzzleState.get(i - dimension), 1)); // i --- topNode
-                vertices.add(new Vertex(i, puzzleState.get(i + dimension), 3)); // i --- bottomNode
-                vertices.add(new Vertex(i, puzzleState.get(i - 1), 4)); // i --- leftNode
+                vertices.add(new Vertex(target, puzzleState.get(i - dimension), 1)); // i --- topNode
+                vertices.add(new Vertex(target, puzzleState.get(i + dimension), 3)); // i --- bottomNode
+                vertices.add(new Vertex(target, puzzleState.get(i - 1), 4)); // i --- leftNode
 
             } else if (i < topRightIndex) { // middle of first row
-                vertices.add(new Vertex(i, puzzleState.get(i + 1), 2)); // i --- rightNode
-                vertices.add(new Vertex(i, puzzleState.get(i + dimension), 3)); // i --- bottomNode
-                vertices.add(new Vertex(i, puzzleState.get(i - 1), 4)); // i --- leftNode
+                vertices.add(new Vertex(target, puzzleState.get(i + 1), 2)); // i --- rightNode
+                vertices.add(new Vertex(target, puzzleState.get(i + dimension), 3)); // i --- bottomNode
+                vertices.add(new Vertex(target, puzzleState.get(i - 1), 4)); // i --- leftNode
 
             } else if (bottomLeftIndex < i && i < bottomRightIndex) { // middle of the last row
-                vertices.add(new Vertex(i, puzzleState.get(i - dimension), 1)); // i --- topNode
-                vertices.add(new Vertex(i, puzzleState.get(i + 1), 2)); // i --- rightNode
-                vertices.add(new Vertex(i, puzzleState.get(i - 1), 4)); // i --- leftNode
+                vertices.add(new Vertex(target, puzzleState.get(i - dimension), 1)); // i --- topNode
+                vertices.add(new Vertex(target, puzzleState.get(i + 1), 2)); // i --- rightNode
+                vertices.add(new Vertex(target, puzzleState.get(i - 1), 4)); // i --- leftNode
 
             } else { // all remaining nodes
-                vertices.add(new Vertex(i, puzzleState.get(i - dimension), 1)); // i --- topNode
-                vertices.add(new Vertex(i, puzzleState.get(i + 1), 2)); // i --- rightNode
-                vertices.add(new Vertex(i, puzzleState.get(i + dimension), 3)); // i --- bottomNode
-                vertices.add(new Vertex(i, puzzleState.get(i - 1), 4)); // i --- leftNode
+                vertices.add(new Vertex(target, puzzleState.get(i - dimension), 1)); // i --- topNode
+                vertices.add(new Vertex(target, puzzleState.get(i + 1), 2)); // i --- rightNode
+                vertices.add(new Vertex(target, puzzleState.get(i + dimension), 3)); // i --- bottomNode
+                vertices.add(new Vertex(target, puzzleState.get(i - 1), 4)); // i --- leftNode
             }
         }
 //
@@ -131,7 +132,7 @@ public class Graph {
              */
             if (i + 1 == puzzleValue) { // check if non-zero puzzle value is in the correct puzzle position
                 this.graphNodeList.get(i).setInPosition(true);
-                System.out.println("true: " + (i+1));
+//                System.out.println("true: " + (i+1));
             }
         }
 
