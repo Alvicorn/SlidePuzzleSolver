@@ -4,9 +4,9 @@ public class GraphNode implements Comparable<GraphNode> {
 
         private int nodeValue;
         private boolean inPosition;
-        private AdjacentNodes adjacentNodes;
-        private int row;
-        private int rowOffset;
+        private final AdjacentNodes adjacentNodes;
+        private final int row;
+        private final int rowOffset;
 
         public GraphNode(int value, int row, int rowOffset) {
             this.nodeValue = value;

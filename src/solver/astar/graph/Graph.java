@@ -28,19 +28,6 @@ public class Graph {
         return this.graphNodeList.get(node).getVertices();
     }
 
-
-//    public int getPosition(int src, int dest) {
-//        int position = -1;
-//        AdjacentNodes vertices = this.graphNodeList.get(src).getVertices();
-//        for (int[] vertex : vertices) {
-//            if (vertex[0] == dest) {
-//                position = vertex[1];
-//            }
-//        }
-//        return position;
-//    }
-
-
     /**
      * Update the puzzle state
      * @param puzzleState Arraylist of ints representing the puzzle state
@@ -49,7 +36,6 @@ public class Graph {
         this.puzzleState = puzzleState;
         this.puzzleStateToGraph(this.puzzleState);
     }
-
 
     /**
      * Change the puzzle representation from an arraylist to a graph
@@ -107,11 +93,6 @@ public class Graph {
                 vertices.add(new Vertex(target, puzzleState.get(i - 1), 4)); // i --- leftNode
             }
         }
-//
-//        for (Vertex v: vertices) {
-//            System.out.println("src: " + v.getSrc() +
-//                                " dest: " + v.getDest());
-//        }
 
         // each node in the graph has a list of adjacent nodes, allocate memory for that here
         this.graphNodeList = new ArrayList<>();
@@ -132,7 +113,6 @@ public class Graph {
              */
             if (i + 1 == puzzleValue) { // check if non-zero puzzle value is in the correct puzzle position
                 this.graphNodeList.get(i).setInPosition(true);
-//                System.out.println("true: " + (i+1));
             }
         }
 
@@ -154,7 +134,5 @@ public class Graph {
             System.out.print("\t" + this.puzzleState.get(i) + "\t");
         }
     } // end of printPuzzle()
-
-
 
 } // end of Graph.java

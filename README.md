@@ -3,14 +3,9 @@
 ## Logic
 
 ## Insertion Order
-* For a board `n x n` game board, the top `n-2` rows will be solved first. 
-  * For each row in the top `n-2` columns, the `n`th piece will be placed in the `n-1`th piece first, before inserting the `n-1`.
-  * By doing the above point, both the `n-1`th piece and the `n`th piece will be inserted at the same time.
-* Solve for the `n-3` columns.
-  * For each column, insert the `n`th piece into the `n-1` piece's position. 
-  * Move the `n-1` piece so that it is to the right of the `n`th piece.
-  * Slide the `n`th piece down one position and slide the `n-1`th piece to the right to solve.
-* Solve for the final five pieces.
+* For a `n x n` game board, the top `n-2` rows will be solved first. 
+  * Solve from left to right.
+* Solve the last two rows, one column at a time.
 
 ### Main Algorithm
 While the puzzle is not solved:
@@ -35,25 +30,25 @@ Logic:
 Condition: When there is only two pieces left to insert in a line. A line can be a row or column.
 
 Logic:
-* Insert the last piece into the the second to last position in the line.
+* Insert the last piece into the second to last position in the line.
 * If the insertion is row-wise:
-  * Move the second-to-last piece directly below the the last piece.
+  * Move the second-to-last piece directly below the last piece.
     * If the second-to-last piece is in the last position of the line, use the Swapping Algorithm two swap with the piece directly below.
 * If the insertion is column-wise:
-  * Move the second-to-last piece directly below the the last piece.
+  * Move the second-to-last piece directly below the last piece.
   * If the second-to-last piece is in the last position of the line, use the Swapping Algorithm two swap with the piece directly right.
 * Move the 0 piece to be in the last position of the line.
 * Swap the 0 piece with the last piece.
 * Swap the 0 piece with the second-to-last piece.
 
 ### Swapping Algorithm
-1. Starting condition: `n`th piece is in the `n-1`th piece's position and vice versa.
-2. Move the `n-1`th piece out two positions in the same direction (column-wise or row-wise).
-3. Move the piece below/to the right of the `n-1`th position over 1.
-4. Move the `n-1`th piece to the in the correct row.
-5. Move the `n`th piece to be in `n-1`th position.
-6. Return to the Basic Algorithm.
+Condition: `n`th piece is in the `n-1`th piece's position and vice versa.
 
+Logic:
+* Move the `n-1`th piece out two positions in the same direction (column-wise or row-wise). 
+* Move the piece below/to the right of the `n-1`th position over 1. 
+* Move the `n-1`th piece to the in the correct row. 
+* Move the `n`th piece to be in `n-1`th position. 
 
 ### Move 0 Function
 This function will take 2 inputs.
@@ -63,4 +58,4 @@ This function will take 2 inputs.
 Logic:
 * Get the coordinates of the destination value.
 * Determine the path needed to get 0 to the destination.
-* Following the path instruction, swap zero with the next un-swapped value in the path
+* Following the path instruction, swap zero with the next un-swapped value in the path.

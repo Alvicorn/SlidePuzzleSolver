@@ -70,77 +70,14 @@ public class Solver {
 
             // align column first
             while (currentPosition[1] != correctPosition[1]) {
-
-
-
                 currentPosition = this.findPiecePosition(this.puzzleState, piece);
                 correctPosition = this.findPiecePosition(this.endState, piece);
             }
 
             piece = this.puzzleComplete();
-            break;
         }
 
-//        // set the starting row and column
-//        int row = piece / this.dimension;
-//        int rowOffset = piece % this.dimension;
-//        if (rowOffset == 0) {
-//            row--;
-//            rowOffset = this.dimension;
-//        }
-//        rowOffset--; // make the rowOffset index from 0
-//
-//        while (row < this.dimension) { // setting each row
-//            int correctPosition = piece - 1;
-//            while (rowOffset < this.dimension) {
-//                boolean inPlace = false;
-//
-//                while(!inPlace) {
-//                    if (rowOffset == this.dimension - 1) { // this is the last piece
-//                        correctPosition = correctPosition - this.dimension;
-//                        piece = piece - 1;
-//                    } else if (rowOffset == this.dimension - 2) { // this is the second to last piece
-//                        piece = piece + 1;
-//                    }
-//                    System.out.println("\nTarget Piece: " + piece);
-//                    if (this.graph.pieceInPosition(piece)) {
-//                        inPlace = true;
-//                    }
-//                }
-//            }
-//        }
-//        int row = 0;
-//        while (row < this.dimension) {
-//            for (int position = (row * this.dimension) + 1; position < this.dimension; position++) {
-//
-//            }
-//            row++;
-//        }
-
-//        ArrayList<Integer> finished = new ArrayList<>();
-//        for (int block : this.endState) {
-//            if (!graph.nodeInPosition(block)) { // node is not solved
-//                ArrayList<Integer> path = search.shortestPath(block, 0, this.graph, finished, true);
-//                System.out.println(path);
-//                Collections.reverse(path);
-//                path.remove(0);
-//
-//                for (int move : path) {
-//                    AdjacentNodes vertices = this.graph.getNodeVertices(move);
-//                    if (vertices.getTop() == 0) {
-//                        showMove(robot, VK_UP);
-//                    } else if (vertices.getRight() == 0) {
-//                        showMove(robot, KeyEvent.VK_RIGHT);
-//                    } else if (vertices.getBottom() == 0) {
-//                        showMove(robot, KeyEvent.VK_DOWN);
-//                    } else if (vertices.getLeft() == 0) {
-//                        showMove(robot, KeyEvent.VK_LEFT);
-//                    }
-//                }
-//            }
-
-            this.graph.printGraph();
-//        }
+        this.graph.printGraph();
     }
 
     private int[] findPiecePosition(ArrayList<Integer> puzzleState, int target_piece) {
@@ -182,7 +119,6 @@ public class Solver {
         int piece = 1;
         while(piece < dimension * dimension) {
             if (!this.graph.pieceInPosition(piece)) {
-//            if (this.puzzleState.get(piece - 1) != piece) {
                 return piece;
             } else {
                 piece++;

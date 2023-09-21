@@ -91,7 +91,6 @@ public class AStarSearch {
         while (start.getValue() != src) {
             path.add(start.getValue());
             int parent = start.getParent();
-            int[] adjacentNodes = graph.getNodeVertices(start.getValue()).adjacentNodeList();
             for (Node node : finished) {
                 if (node.getValue() == parent ) {
                     start = node;
