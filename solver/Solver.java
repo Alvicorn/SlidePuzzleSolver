@@ -7,10 +7,8 @@
  */
 package solver;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 import solver.astar.AStarSearch;
 import solver.astar.graph.AdjacentNodes;
@@ -101,7 +99,7 @@ public class Solver {
      * @param destinationPosition  position in the graph where the targetPiece is desired
      * @param graph                representation of the game board
      * @param pieceCompleteWeights list of pieces that are already solved and should not be moved
-     * @return ArrayList of actions that allowd the targetPiece to move to the destinationPosition
+     * @return ArrayList of actions that allowed the targetPiece to move to the destinationPosition
      */
     private ArrayList<Integer> movePieceToDestination(
             int targetPiece, int destinationPosition, Graph graph,
