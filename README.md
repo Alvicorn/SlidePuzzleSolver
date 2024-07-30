@@ -12,6 +12,8 @@ will solve a scrambled puzzle for the user. See below for the implementation.
 
 [4X4 Slide Puzzle Solver Demo](https://youtu.be/vBfNDLpQZMc)
 
+This project was built using IntelliJ IDEA and Open JDK Version 18.0.1.
+
 ## Puzzle Validity
 To validate that the puzzle has a solution, an algorithm from 
 [GeeksForGeeks](https://www.geeksforgeeks.org/check-instance-15-puzzle-solvable/) was used and 
