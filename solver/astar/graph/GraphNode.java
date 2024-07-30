@@ -1,27 +1,27 @@
+/**
+ * GraphNode.java
+ *
+ * @author Alvin Tsang
+ *
+ * A vertex in the graph
+ */
+
 package solver.astar.graph;
 
 public class GraphNode implements Comparable<GraphNode> {
 
-        private int nodeValue;
+        private final int nodeValue;
         private boolean inPosition;
         private AdjacentNodes adjacentNodes;
-        private int row;
-        private int rowOffset;
 
-        public GraphNode(int value, int row, int rowOffset) {
+        public GraphNode(int value) {
             this.nodeValue = value;
             this.inPosition = false;
             this.adjacentNodes = new AdjacentNodes();
-            this.row = row;
-            this.rowOffset = rowOffset;
         }
 
     public int getValue() {
         return this.nodeValue;
-    }
-
-    public void setValue(int value) {
-        this.nodeValue = value;
     }
 
     public boolean isInPosition() {
@@ -41,21 +41,10 @@ public class GraphNode implements Comparable<GraphNode> {
         }
     }
 
-    public AdjacentNodes getVertices() {
-            return this.adjacentNodes;
-    }
-
-    public int getRow() {
-        return this.row;
-    }
-
-    public int getRowOffset() {
-            return this.rowOffset;
-    }
+    public AdjacentNodes getVertices() {return this.adjacentNodes;}
 
     @Override
-    public int compareTo(GraphNode n) {
-        return this.getValue() - n.getValue();
-    }
-}
+    public int compareTo(GraphNode n) {return this.getValue() - n.getValue();}
+
+} // end of GraphNode.java
 

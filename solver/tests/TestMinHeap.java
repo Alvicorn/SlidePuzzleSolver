@@ -1,42 +1,43 @@
 package solver.tests;
 
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import solver.astar.minheap.MinHeap;
-import solver.astar.minheap.Node;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static org.junit.jupiter.api.Assertions.*;
+import solver.astar.minheap.MinHeap;
+import solver.astar.minheap.PQNode;
 
-class MinHeapTest {
+
+class TestMinHeap {
 
     @Test
     @DisplayName("GetMin Method: Empty Heap")
-    void EmptyHeap() {
+    void testEmptyHeap() {
         MinHeap heap = new MinHeap();
         assertAll(
                 () -> assertTrue(heap.isEmpty()),
                 () -> assertNull(heap.getMin()),
                 () -> assertNull(heap.extractMin())
         );
-    } // end of insert1Element()
+    } // end of testEmptyHeap()
 
     @Test
     @DisplayName("Insert Method: 1 Element")
-    void insert1Element() {
+    void testInsert1Element() {
         MinHeap heap = new MinHeap();
-        heap.insert(new Node(1, 1, 1, -1));
+        heap.insert(new PQNode(1, 1, 1, -1));
         assertAll(
                 () -> assertEquals(1, heap.getMin().getValue()),
                 () -> assertEquals(1, heap.extractMin().getValue())
         );
-    } // end of insert1Element()
+    } // end of testInsert1Element()
 
     @Test
     @DisplayName("Insert Method: 1000 Element")
-    void insert1000Element() {
+    void testInsert1000Element() {
 
         ArrayList<Integer> expected = new ArrayList<>();
         ArrayList<Integer> shuffled = new ArrayList<>();
@@ -49,7 +50,7 @@ class MinHeapTest {
 
         MinHeap heap = new MinHeap();
         for (int number : shuffled) {
-            heap.insert(new Node(number, number, number, 0));
+            heap.insert(new PQNode(number, number, number, 0));
         }
 
         ArrayList<Integer> results = new ArrayList<>();
@@ -57,8 +58,6 @@ class MinHeapTest {
             results.add(heap.extractMin().getValue());
         }
         assertArrayEquals(expected.toArray(), results.toArray());
-    } // end of insert1000Element()
-
-
+    } // end of testInsert1000Element()
 
 } // end of MinHeapTest.java

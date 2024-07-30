@@ -1,29 +1,30 @@
+/**
+ * MinHeap.java
+ *
+ * @author Alvin Tsang
+ *
+ * Minimum heap using an arraylist as the concrete data type
+ */
 package solver.astar.minheap;
 
 import java.util.ArrayList;
 
+
 public class MinHeap {
-    private ArrayList<Node> heap;
+    private final ArrayList<PQNode> heap = new ArrayList<>();
 
-    public MinHeap() {
-        this.heap = new ArrayList<>();
-    }
+    public MinHeap() {}
 
-    /**
-     * @return true if heap is empty, false otherwise
-     */
     public boolean isEmpty() {
         return this.heap.size() == 0;
-    } // end of isEmpty()
+    }
 
     public void setParent(int currentNode, int updatedParent) {
-
         int index = findIndex(currentNode);
         if (index < this.heap.size()) { // index was found
             this.heap.get(index).parent = updatedParent;
         }
     } // end of updateParent()
-
 
     public void setWeight(int currentNode, int updatedWeight) {
         int index = findIndex(currentNode);
@@ -34,8 +35,8 @@ public class MinHeap {
 
     public int getWeight(int node) {
         int index = findIndex(node);
-            return index < this.heap.size() ? this.heap.get(index).weight : -1;
-    }
+        return index < this.heap.size() ? this.heap.get(index).weight : -1;
+    } // end of getWeight()
 
     private int findIndex(int src) {
         int index = 0;
@@ -48,14 +49,14 @@ public class MinHeap {
             }
         }
         return index;
-    }
+    } // end of findIndex()
 
 
     /**
      * Get the smallest value in the min heap without modifying the heap
      * @return the smallest value in the min heap, -1 if empty
      */
-    public Node getMin() {
+    public PQNode getMin() {
         return this.heap.size() > 0 ? this.heap.get(0) : null;
     } // end of getMin()
 
@@ -63,12 +64,12 @@ public class MinHeap {
      * Remove the smallest value in the min heap
      * @return the smallest value in the min heap, -1 if empty
      */
-    public Node extractMin() {
+    public PQNode extractMin() {
         if (isEmpty()) {
             return null;
         }
 
-        Node extract = this.heap.get(0);
+        PQNode extract = this.heap.get(0);
 
         // replace the root with the last node, remove the last node
         // then heapify
@@ -82,12 +83,11 @@ public class MinHeap {
         return extract;
     } // end of extractMin()
 
-
     /**
      * Insert a value into the min heap
      * @param node node containing the weight, total cost, value and parent value
      */
-    public void insert(Node node) {
+    public void insert(PQNode node) {
         this.heap.add(node);
 
         int current = this.heap.size() - 1;
@@ -130,7 +130,7 @@ public class MinHeap {
      * @param child     index of the child node
      */
     private void swap(int parent, int child) {
-        Node temp = this.heap.get(parent);
+        PQNode temp = this.heap.get(parent);
         this.heap.set(parent, this.heap.get(child));
         this.heap.set(child, temp);
     } // end of swap()
@@ -142,7 +142,7 @@ public class MinHeap {
      */
     private int getParent(int index) {
         return index / 2;
-    } // end of getParent()
+    }
 
     /**
      * Get the index of the left child
@@ -151,7 +151,7 @@ public class MinHeap {
      */
     private int getLeftChild(int index) {
         return index * 2;
-    } // end of getLeftChild()
+    }
 
     /**
      * Get the index of the right child
@@ -160,7 +160,7 @@ public class MinHeap {
      */
     private int getRightChild(int index) {
         return index * 2 + 1;
-    } // end of getRightChild()
+    }
 
     /**
      * Check if the index is a leaf node in the min heap
@@ -169,7 +169,6 @@ public class MinHeap {
      */
     private boolean isLeaf(int index) {
         return index > this.heap.size() / 2;
-    } // end of isLeaf()
-
+    }
 
 } // end of MinHeap.java

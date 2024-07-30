@@ -1,51 +1,35 @@
 /**
  * PriorityQueue.java
  *
- * Minimum Priority queue
+ * @author Alvin Tsang
+ *
+ * Minimum Priority queue using a minheap
  */
 package solver.astar;
 
 import solver.astar.minheap.MinHeap;
-import solver.astar.minheap.Node;
+import solver.astar.minheap.PQNode;
 
 public class PriorityQueue {
 
-    private final MinHeap heap;
+    private final MinHeap heap = new MinHeap();
 
-    public PriorityQueue() {
-        this.heap = new MinHeap();
+    public PriorityQueue() {}
+
+    public void enqueue(PQNode node) {
+        heap.insert(node);
     }
 
-    public void enqueue(Node node) {
-        this.heap.insert(node);
+    public PQNode dequeue() {
+        return heap.extractMin();
     }
 
-    public Node dequeue() {
-        return this.heap.extractMin();
-    }
+    public void clear() {
+        while (!heap.isEmpty()) {heap.extractMin();}
+    } // end of clear()
 
     public boolean isEmpty() {
-        return this.heap.isEmpty();
-    }
-
-    public void updateParent(int currentNode, int updatedValue) {
-        this.heap.setParent(currentNode, updatedValue);
-    }
-
-    public void updateWeight(int currentNode, int updatedValue) {
-        this.heap.setWeight(currentNode, updatedValue);
-    }
-
-    public int getWeight(int node) {
-        return this.heap.getWeight(node);
-    }
-
-    /**
-     * Get the value with the most priority
-     * @return the value with most priority
-     */
-    public Node getMin() {
-        return this.heap.getMin();
+        return heap.isEmpty();
     }
 
 } // end of PriorityQueue.java

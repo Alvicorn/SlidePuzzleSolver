@@ -1,4 +1,13 @@
+/**
+ * AdjacentNodes.java
+ *
+ * @author Alvin Tsang
+ *
+ * Class recording adjacent nodes and its direction relative to the source node.
+ */
+
 package solver.astar.graph;
+
 
 public class AdjacentNodes {
 
@@ -49,4 +58,4 @@ public class AdjacentNodes {
     public int[] adjacentNodeList() {
         return new int[] { this.top, this.right, this.bottom, this.left};
     }
-}
+} // end of AdjacentNodes.java
