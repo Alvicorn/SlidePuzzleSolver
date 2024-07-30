@@ -1,10 +1,18 @@
+/**
+ * Puzzle.java
+ *
+ * @author Alvin Tsang
+ *
+ * UI elements for the slide puzzle.
+ */
 package ui;
 
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
 import java.util.ArrayList;
+import javax.swing.*;
 
+import solver.Solver;
 
 
 public class Puzzle implements ActionListener, KeyListener {
@@ -13,26 +21,91 @@ public class Puzzle implements ActionListener, KeyListener {
     private final int dimension;
     private static final int HEIGHT = 400;
     private static final int WIDTH = 400;
-
-
     private final JButton[][] board;
-    private final JFrame frame;
-    private final JPanel panel;
+    private final JFrame frame = new JFrame("Sliding Puzzle Game");
+    private final JPanel panel = new JPanel();
+    private final JMenuBar menuBar = new JMenuBar();
 
     public Puzzle(int dimension) {
         this.puzzleLogic = new PuzzleLogic(dimension);
         this.dimension = dimension;
-
         this.board = new JButton[this.dimension][this.dimension];
-        this.frame = new JFrame("Sliding Puzzle Game");
-        this.panel = new JPanel();
+        initializeUI();
+    }
 
-        // allow for keyboard movement
+    /**
+     * Initialize the UI elements of the game
+     */
+    private void initializeUI() {
+        // Allow for keyboard movement
         this.frame.addKeyListener(this);
         this.frame.setFocusable(true);
         this.frame.requestFocus();
-    }
 
+        setupMenuBar();
+        initializeBoard();
+
+        // Set up the frame
+        frame.setLocation(400, 200);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(WIDTH, HEIGHT);
+        frame.setVisible(true);
+    } // end of initializeUI()
+
+    /**
+     * Set up the menu bar
+     */
+    private void setupMenuBar() {
+        JMenu helpMenu = new JMenu("Menu");
+        addSolveItemToMenu(helpMenu);
+        menuBar.add(helpMenu);
+        frame.setJMenuBar(menuBar);
+    } // end of setupMenuBar()
+
+    /**
+     * Set up the solve button in the menu bar
+     * @param menu Parent menu selector
+     */
+    private void addSolveItemToMenu(JMenu menu) {
+        // solve option
+        JMenuItem solveItem = new JMenuItem("Solve");
+        menu.add(solveItem);
+        Solver solver = new Solver(dimension);
+
+        solveItem.addActionListener(e -> {
+            System.out.println("Attempting to solve...");
+            disableButtons();
+            ArrayList<Integer> solution = solver.solve(puzzleLogic.getPuzzleState());
+
+            // Use a Swing Timer to handle periodic updates
+            Timer timer = new Timer(500, new ActionListener() {
+                private int currentIndex = 0;
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (currentIndex < solution.size()) {
+                        int action = solution.get(currentIndex++);
+                        executeAction(action);
+                    } else {
+                        // Stop the timer when all actions are executed
+                        ((Timer) e.getSource()).stop();
+                        JOptionPane.showMessageDialog(null, "Puzzle solved. Better luck next time!");
+                    }
+                }
+            });
+            timer.start();
+        });
+    } // addSolveItemToMenu()
+
+    /**
+     * Disable the game tiles, preventing the user from changing the game board.
+     */
+    private void disableButtons() {
+        for (int index = 0; index < this.puzzleLogic.getSize(); index++) {
+            int row = index / this.dimension;  // row number from index
+            int col = index % this.dimension; // column number from index
+            board[row][col].setEnabled(false);
+        }
+    } // disableButtons()
 
     /**
      * Gives index value corresponding to [row,col] of a square
@@ -40,15 +113,12 @@ public class Puzzle implements ActionListener, KeyListener {
      * @param col column
      * @return the index of the corresponding to the row and column
      */
-    private int getIndex(int row, int col) {
-        return ((row * this.dimension) + col);
-    } // end of getIndex()
+    private int getIndex(int row, int col) {return ((row * this.dimension) + col);} // end of getIndex()
 
     /**
      * Generates the UI for the game
-     * @return the
      */
-    public ArrayList<Integer> initializeBoard() {
+    public void initializeBoard() {
         ArrayList<Integer> puzzle = this.puzzleLogic.generatePuzzle();
 
         // Assigns unique random number to each square
@@ -68,6 +138,7 @@ public class Puzzle implements ActionListener, KeyListener {
             board[row][col].setBackground(Color.BLACK);
             board[row][col].setForeground(Color.GREEN);
             board[row][col].addActionListener(this);
+            board[row][col].setEnabled(true);
             panel.add(board[row][col]);
         }
 
@@ -86,7 +157,6 @@ public class Puzzle implements ActionListener, KeyListener {
         content.add(panel, BorderLayout.CENTER);
         content.setBackground(Color.GRAY);
         frame.setVisible(true);
-        return this.puzzleLogic.getPuzzleState();
     } // end of initializeBoard()
 
     /**
@@ -113,8 +183,6 @@ public class Puzzle implements ActionListener, KeyListener {
         }
     } // end of actionPerformed()
 
-
-
     @Override
     public void keyTyped(KeyEvent e) {}
 
@@ -122,47 +190,7 @@ public class Puzzle implements ActionListener, KeyListener {
     public void keyPressed(KeyEvent e) {}
 
     @Override
-    public void keyReleased(KeyEvent e) {
-        int emptyCell = this.puzzleLogic.getEmptyCell();
-        int keyCode = e.getKeyCode();
-
-        switch (keyCode) {
-
-            case KeyEvent.VK_DOWN:
-                if (this.makeMove(emptyCell + this.dimension)) { // target cell is exactly 1 row above
-                    if (this.puzzleLogic.isSolved()) { // game is finished
-                        JOptionPane.showMessageDialog(null, "You Win The Game.");
-                    }
-                }
-                break;
-
-            case KeyEvent.VK_UP:
-                if (this.makeMove(emptyCell - this.dimension)) { // target cell is exactly 1 row below
-                    if (this.puzzleLogic.isSolved()) { // game is finished
-                        JOptionPane.showMessageDialog(null, "You Win The Game.");
-                    }
-                }
-                break;
-
-            case KeyEvent.VK_RIGHT:
-                if (this.makeMove(emptyCell + 1)) { // target cell is exactly 1 column to the right
-                    if (this.puzzleLogic.isSolved()) { // game is finished
-                        JOptionPane.showMessageDialog(null, "You Win The Game.");
-                    }
-                }
-                break;
-
-            case KeyEvent.VK_LEFT:
-                if (this.makeMove(emptyCell - 1)) { // target cell is exactly 1 column to the left
-                    if (this.puzzleLogic.isSolved()) { // game is finished
-                        JOptionPane.showMessageDialog(null, "You Win The Game.");
-                    }
-                }
-                break;
-        }
-
-} // end of keyReleased()
-
+    public void keyReleased(KeyEvent e) {executeAction(e.getKeyCode());}
 
     /**
      * Gives the index by processing the text on square
@@ -170,7 +198,6 @@ public class Puzzle implements ActionListener, KeyListener {
      * @return the index of the button
      */
     private int indexOf(String cellNum) {
-
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board[row].length; col++) {
                 if (board[row][col].getText().equals(cellNum)) {
@@ -180,6 +207,48 @@ public class Puzzle implements ActionListener, KeyListener {
         }
         return -1;   // Wrong input returns -1
     } // end of indexOf()
+
+    /**
+     * Execute an action given a keyCode. Make the action to visually show it on the UI.
+     * @param keyCode direction to move the empty cell
+     */
+    private void executeAction(int keyCode) {
+        int emptyCell = this.puzzleLogic.getEmptyCell();
+        switch (keyCode) {
+            case KeyEvent.VK_DOWN:
+                if (this.makeMove(emptyCell + this.dimension)) { // target cell is exactly 1 row above
+                    if (this.puzzleLogic.isSolved()) { // game is finished
+                        disableButtons();
+                        JOptionPane.showMessageDialog(null, "You Win The Game.");
+                    }
+                }
+                break;
+            case KeyEvent.VK_UP:
+                if (this.makeMove(emptyCell - this.dimension)) { // target cell is exactly 1 row below
+                    if (this.puzzleLogic.isSolved()) { // game is finished
+                        disableButtons();
+                        JOptionPane.showMessageDialog(null, "You Win The Game.");
+                    }
+                }
+                break;
+            case KeyEvent.VK_RIGHT:
+                if (this.makeMove(emptyCell + 1)) { // target cell is exactly 1 column to the right
+                    if (this.puzzleLogic.isSolved()) { // game is finished
+                        disableButtons();
+                        JOptionPane.showMessageDialog(null, "You Win The Game.");
+                    }
+                }
+                break;
+            case KeyEvent.VK_LEFT:
+                if (this.makeMove(emptyCell - 1)) { // target cell is exactly 1 column to the left
+                    if (this.puzzleLogic.isSolved()) { // game is finished
+                        disableButtons();
+                        JOptionPane.showMessageDialog(null, "You Win The Game.");
+                    }
+                }
+                break;
+        }
+    } // executeAction()
 
     /**
      * Checks the row or column with empty square
